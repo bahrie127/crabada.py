@@ -25,8 +25,9 @@ def closeMines(user: User) -> int:
     """
     client = makeCrabadaWeb3Client()
     openGames = fetchOpenMines(user)
+    logger.info(f"openGames: {openGames}")
     finishedGames = [g for g in openGames if mineIsFinished(g)]
-
+    logger.info(f"finishedGames: {finishedGames}")
     # Print a useful message in case there aren't finished games
     if not finishedGames:
         message = f"No mines to close for user {str(user.address)}"
