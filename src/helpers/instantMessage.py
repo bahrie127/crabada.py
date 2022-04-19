@@ -39,7 +39,7 @@ def sendIM(body: str, forceSend: bool = False, silent: bool = True) -> bool:
 
     except:
         logger.warning("Notification Error!")
-        return False
+        return True
 
     return notification_result
 
