@@ -8,6 +8,7 @@ from src.common.clients import makeCrabadaWeb3Client
 from src.helpers.teams import fetchAvailableTeamsForTask
 from src.models.User import User
 from web3.exceptions import ContractLogicError
+from src.common.dotenv import getenv
 
 
 def sendTeamsMining(user: User) -> int:
@@ -36,7 +37,7 @@ def sendTeamsMining(user: User) -> int:
             txHash = client.startGame(teamId)
         except ContractLogicError as e:
             logger.warning(f"Error sending team {teamId} mining: {e}")
-            sendIM(f"Error sending team {teamId} mining: {e}")
+            sendIM(getenv("BOT_ID") + f" , Error sending team {teamId} mining: {e}")
             continue
 
         # Report
@@ -44,10 +45,10 @@ def sendTeamsMining(user: User) -> int:
         logTx(txReceipt)
         if txReceipt["status"] != 1:
             logger.error(f"Error sending team {teamId} mining")
-            sendIM(f"Error sending team {teamId} mining")
+            sendIM(getenv("BOT_ID") + f" , Error sending team {teamId} mining")
         else:
             nSentTeams += 1
             logger.info(f"Team {teamId} sent successfully")
-            sendIM(f"Team {teamId} sent successfully")
+            sendIM(getenv("BOT_ID") + f" , Team {teamId} sent successfully")
 
     return nSentTeams

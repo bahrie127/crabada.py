@@ -12,6 +12,7 @@ from src.helpers.mines import (
     getRemainingTimeFormatted,
     mineIsFinished,
 )
+from src.common.dotenv import getenv
 from src.models.User import User
 from web3.exceptions import ContractLogicError
 from src.helpers.donate import maybeDonate
@@ -50,7 +51,7 @@ def closeMines(user: User) -> int:
             txHash = client.closeGame(gameId)
         except ContractLogicError as e:
             logger.warning(f"Error closing mine {gameId}: {e}")
-            sendIM(f"Error closing mine {gameId}: {e}")
+            sendIM(getenv("BOT_ID") + f" , Error closing mine {gameId}: {e}")
             continue
 
         # Report
@@ -58,11 +59,11 @@ def closeMines(user: User) -> int:
         logTx(txReceipt)
         if txReceipt["status"] != 1:
             logger.error(f"Error closing mine {gameId}")
-            sendIM(f"Error closing mine {gameId}")
+            sendIM(getenv("BOT_ID") + f", Error closing mine {gameId}")
         else:
             nClosedGames += 1
             logger.info(f"Mine {gameId} closed correctly")
-            sendIM(f"Mine {gameId} closed correctly")
-            maybeDonate(txReceipt)
+            sendIM(getenv("BOT_ID") + f" , Mine {gameId} closed correctly")
+            #maybeDonate(txReceipt)
 
     return nClosedGames
