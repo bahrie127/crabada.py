@@ -223,7 +223,7 @@ def fetchOpenMines(user: User) -> List[Game]:
         return []
 
     openGames = makeCrabadaWeb2Client().listMines(
-        {"limit": len(teamIds) * 2, "status": "open", "user_address": user.address}
+        {"limit": len(teamIds) * 3, "status": "open", "user_address": user.address}
     )
 
     return [g for g in openGames if g["team_id"] in teamIds]
