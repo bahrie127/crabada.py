@@ -19,7 +19,7 @@ def fetchAvailableTeamsForTask(user: User, task: TeamTask) -> List[Team]:
 
     # Fetch list of available teams
     availableTeams = makeCrabadaWeb2Client().listTeams(
-        user.address, {"is_team_available": 1, "limit": len(ids) * 2, "page": 1}
+        user.address, {"is_team_available": 1, "limit": len(ids) * 3, "page": 1}
     )
 
     # Intersect teams with the task with available teams
