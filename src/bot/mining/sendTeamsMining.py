@@ -8,7 +8,7 @@ from src.helpers.instantMessage import sendIM
 from src.common.clients import makeCrabadaWeb3Client
 from src.helpers.teams import fetchAvailableTeamsForTask
 from src.models.User import User
-from web3.exceptions import ContractLogicError
+from web3.exceptions import *
 from src.common.dotenv import getenv
 
 
@@ -38,6 +38,10 @@ def sendTeamsMining(user: User) -> int:
         except ContractLogicError as e:
             logger.warning(f"Error sending team {teamId} mining: {e}")
             sendIM(getenv("BOT_ID") + f" , Error sending team {teamId} mining: {e}")
+            continue
+        except SolidityError as sol:
+            logger.warning(f"Error sending team {teamId} mining: SolidityError {sol}")
+            sendIM(getenv("BOT_ID") + f" , Error sending team {teamId} mining: SolidityError {sol}")
             continue
 
         # Report
