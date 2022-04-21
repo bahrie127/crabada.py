@@ -14,7 +14,7 @@ from src.helpers.mines import (
 )
 from src.common.dotenv import getenv
 from src.models.User import User
-from web3.exceptions import ContractLogicError
+from web3.exceptions import *
 from src.helpers.donate import maybeDonate
 
 
@@ -52,6 +52,10 @@ def closeMines(user: User) -> int:
         except ContractLogicError as e:
             logger.warning(f"Error closing mine {gameId}: {e}")
             sendIM(getenv("BOT_ID") + f" , Error closing mine {gameId}: {e}")
+            continue
+        except SolidityError as sol:
+            logger.warning(f"Error closing mine {gameId}: SolidityError {sol}")
+            sendIM(getenv("BOT_ID") + f" , Error closing mine {gameId}: SolidityError {sol}")
             continue
 
         # Report
